@@ -8,6 +8,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  PROTOBUF_VERSION: ${GITHUB_REF##*/}
 
 jobs:
   build:
@@ -46,7 +47,7 @@ jobs:
         with:
           context: .
           push: true
-          build-args: PROTOBUF_VERSION=${GITHUB_REF##*/}
+          build-args: PROTOBUF_VERSION=${{ env.PROTOBUF_VERSION }}
           tags: |
             ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
