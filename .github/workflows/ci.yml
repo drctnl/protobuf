@@ -38,8 +38,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=edge,branch=master
-            type=ref,event=branch
+            type=ref,event=tag
             type=sha
 
       - name: Build and push Docker image
@@ -47,7 +46,7 @@ jobs:
         with:
           context: .
           push: true
+          build-args: PROTOBUF_VERSION=${GITHUB_REF##*/}
           tags: |
             ${{ steps.meta.outputs.tags }}
-            ${GITHUB_REF##*/}
           labels: ${{ steps.meta.outputs.labels }}
